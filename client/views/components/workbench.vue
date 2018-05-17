@@ -6,7 +6,6 @@ export default {
     const { focuseView } = this.$store.getters
 
     if (focuseView) {
-      console.log(focuseView.component)
       return h('div', { class: 'container' }, [h(focuseView.component)])
     } else {
       return h('div', { class: 'container' }, [

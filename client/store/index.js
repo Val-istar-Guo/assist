@@ -12,7 +12,8 @@ export default {
   modules: {},
 
   state: {
-    applicationState: 'init',
+    // initization, running, closing
+    applicationStatus: 'initization',
     plugins: [],
     focuseViewType: '',
     views: [],
@@ -161,6 +162,7 @@ export default {
     afterApplicationLoaded: (state, thing) => {
       // 自动聚焦第一个view
       if (state.views.length && !state.focuseViewType) state.focuseViewType = state.views[0].type
+      state.applicationStatus = 'running'
     },
   },
 };

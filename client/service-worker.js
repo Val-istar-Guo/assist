@@ -12,3 +12,5 @@ toolbox.router.get('/runtime.*.js', toolbox.cacheFirst)
 toolbox.router.get('/*.png', toolbox.cacheFirst)
 toolbox.router.get('/bundle.*.js', toolbox.cacheFirst)
 toolbox.router.get('/chunk.*.js', toolbox.cacheFirst)
+
+toolbox.router.get('/api/plugin/*', toolbox.cacheFirst)
