@@ -2,8 +2,9 @@ import env from 'detect-env'
 import request from 'superagent'
 import uuid from 'uuid/v1'
 import jsonp from '../modules/jsonp'
-// import * as systemPlugin from '../modules/systemPlugin'
 import { createThing } from '../modules/thing'
+import 'expose-loader?vuex!vuex'
+// import 'vuex'
 
 
 export default {

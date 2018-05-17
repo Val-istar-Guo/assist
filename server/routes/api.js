@@ -14,7 +14,7 @@ router
     const pluginPath = join(installPath, 'node_modules', pluginName)
 
 
-    await npm.install([pluginName], {
+    await npm.install([`${pluginName}@latest`], {
       cwd: installPath,
       save: false,
     })

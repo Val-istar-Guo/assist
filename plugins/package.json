@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "assist-plugin-system": "0.0.1-alpha.1",
-    "moment": "^2.22.1"
+    "assist-plugin-system": "0.0.1-alpha.2"
   }
 }

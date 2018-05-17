@@ -26,6 +26,14 @@ export default {
   module: {
     rules: [
       { test: /\.vue/, exclude: /node_modules/, use: [vueLoader] },
+      // BUG: expose-loader not work with config
+      // {
+      //   test: require.resolve('vuex'),
+      //   use: [{
+      //     loader: 'expose-loader',
+      //     options: 'vuex'
+      //   }]
+      // },
       { test: /\.js$/, exclude: /node_modules/, use: [babelLoader] },
       { test: /\.html$/, use: 'html-loader' },
       { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/, use: [urlLoader] },
