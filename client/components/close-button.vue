@@ -13,8 +13,8 @@ export default {
 .left-line,
 .right-line {
   display: block;
-  width: 40rem;
-  height: 4rem;
+  width: 40px;
+  height: 4px;
   background: #D8D8D8;
   transform-origin: 50% 0%;
 }

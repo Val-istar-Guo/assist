@@ -43,7 +43,7 @@ export default {
 
 .assist-input {
   display: inline-block;
-  font-size: 32rem;
+  font-size: 32px;
 }
 
 label {

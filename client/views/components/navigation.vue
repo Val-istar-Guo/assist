@@ -20,22 +20,22 @@ export default {
 <style lang="postcss" scoped>
 .container {
   width: 100%;
-  height: 120rem;
+  height: 120px;
   box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
-  font-size: 24rem;
+  font-size: 24px;
 }
 
 .navigator {
   margin: 0;
   padding: 0;
   text-align: center;
-  line-height: 120rem;
+  line-height: 120px;
 
   & .item {
     position: relative;
     display: inline-block;
     list-style: none;
-    padding: 0 30rem;
+    padding: 0 30px;
     cursor: pointer;
 
     &::before {
@@ -44,7 +44,7 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
-      height: 12rem;
+      height: 12px;
       width: 100%;
       background: #333;
       transform: scaleX(0);

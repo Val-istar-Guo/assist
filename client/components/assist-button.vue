@@ -35,17 +35,17 @@ export default {
   border-radius: 4px;
 
   &.small {
-    font-size: 24rem;
+    font-size: 24px;
     padding: 10px 20px;
   }
 
   &.middle {
-    font-size: 32rem;
+    font-size: 32px;
     padding: 10px 30px;
   }
 
   &.large {
-    font-size: 36rem;
+    font-size: 36px;
   }
 
   &.normal {
