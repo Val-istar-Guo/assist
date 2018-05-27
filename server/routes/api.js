@@ -14,10 +14,10 @@ router
     const pluginPath = join(installPath, 'node_modules', pluginName)
 
 
-    await npm.install([`${pluginName}@latest`], {
-      cwd: installPath,
-      save: false,
-    })
+    // await npm.install([`${pluginName}@latest`], {
+    //   cwd: installPath,
+    //   save: false,
+    // })
 
     const packageJsonFile = await readFile(join(pluginPath, 'package.json'))
     const { main } = JSON.parse(packageJsonFile)

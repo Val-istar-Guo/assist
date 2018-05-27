@@ -3,6 +3,7 @@ import request from 'superagent'
 import uuid from 'uuid/v1'
 import jsonp from '../modules/jsonp'
 import { createThing } from '../modules/thing'
+import { createThingType } from '../modules/thingType'
 import 'expose-loader?vuex!vuex'
 // import 'vuex'
 
@@ -40,6 +41,7 @@ export default {
   getters: {
     views: state => state.views,
     things: state => state.things,
+    thingTypes: state => state.thingTypes,
     focuseView: state => state.views.find(v => v.type === state.focuseViewType),
   },
 
@@ -88,14 +90,20 @@ export default {
 
       things.forEach(thing => thing)
     },
-    'system.appendThing': async ({ state, commit }, thing) => {
-      console.log('system append thing')
+    'system.appendThing': async ({ state, commit, getters }, editorProps) => {
+      console.log('system append thing: ', editorProps)
 
-      const thingType = state.thingTypes.find(t => t.type === thing.type)
+      const thingType = state.thingTypes.find(t => t.type === editorProps.type)
+      let thing = createThing({}, thingType)
 
-      thing = createThing(thing, thingType)
+      Object.entries(editorProps)
+        .forEach(([name, value]) => {
+          console.log(name)
+          const field = thing.fields.find(e => e.name === name)
+          if (field) thing = field.onChange(value, thing, getters)
+        })
 
-      thing = thing.hooks.onChange(thing)
+      thing = thing.hooks.onCreate(thing)
       commit('thingsAppend', [thing])
     },
     'system.deleteThing': async ({ state, commit }, thing) => {
@@ -104,26 +112,29 @@ export default {
       thing.hooks.beforeDelete(thing)
       commit('thingsDelete', [thing])
     },
-    'system.modifyThing': async ({ state, commit, getters }, { uuid, name, value }) => {
-      console.log('system modify thing')
+    'system.modifyThings': async ({ state, commit, getters }, props) => {
+      console.log('system modify thing', props)
 
-      state.things = state.things.map(item => {
-        if (item.uuid !== thing.uuid) return item
+      const things = state.things
+        .filter(thing => {
+          const prop = props.find(prop => prop.uuid === thing.uuid)
+          if (!prop) return false
 
-        const editor = item.editor.find(e => e.name === name)
-        const thing = editor.onChange(value, thing, getters)
+          return thing.fields.some(e => e.name === prop.name)
+        })
+        .map(thing => {
+          const { value, name } = props.find(prop => prop.uuid === thing.uuid)
+          return thing.fields.find(e => e.name === name).onChange(value, thing)
+        })
 
-        return thing.hooks.onChange(thing)
-      })
-
-      return state
+      commit('thingsModified', things)
     },
 
     'system.storage': async ({ state, commit }) => {
       console.log('system storage data')
 
       const { things } = state
-      /* 不存储 thing.hook 与 thing.editor 属性，因为这是根据插件动态生成的，非数据 */
+      /* 不存储 thing.hook 与 thing.fields 属性，因为这是根据插件动态生成的，非数据 */
     },
   },
 
@@ -135,10 +146,17 @@ export default {
     pluginLoaded: (state, plugin) => {
       state.plugins = [...state.plugins, plugin.name]
 
-      if ('style' in plugin) state.styles = [...state.styles, plugin.style]
-      if ('thingTypes' in plugin) state.thingTypes = [...state.thingTypes, ...plugin.thingTypes]
-      if ('views' in plugin) state.views = [...state.views, ...plugin.views]
+      if ('style' in plugin) {
+        state.styles = [...state.styles, plugin.style]
+      }
 
+      if ('thingTypes' in plugin) {
+        state.thingTypes = [...state.thingTypes, ...plugin.thingTypes.map(createThingType)]
+      }
+
+      if ('views' in plugin) {
+        state.views = [...state.views, ...plugin.views]
+      }
 
       state.hooks = Object.entries(state.hooks)
         .map(([name, hooks]) => {
@@ -155,6 +173,19 @@ export default {
 
       state.things = [...state.things, ...things]
       return state;
+    },
+
+    thingsModified: (state, things) => {
+      state.things = state.things.map(item => {
+        const thing = things.find(t => t.uuid === item.uuid)
+        if (!thing) return item
+        // const fields = item.fields.find(e => e.name === name)
+        // const thing = fields.onChange(value, thing, getters)
+
+        return thing.hooks.onChange(thing)
+      })
+
+      return state
     },
 
     thingsDelete: (state, things) => {

@@ -1,16 +1,14 @@
 import moment from 'moment'
-import uuid from 'uuid/v1'
+import uuid from 'uuid/v4'
 
 const identify = value => value
-export const editorTypes = ['text', 'textarea', 'checkbox', 'select', 'data', 'duration', 'multi', 'section']
 
 export const createThing = (props, type) => {
-  if (!('title' in props)) throw new Error('Must set name when create thing')
-  if (!('editor' in type)) type.editor = []
   if (!('time') in props) props = { ...props, time: {} }
 
+  console.log(props, uuid(), uuid());
   return {
-    type: props.type,
+    type: type.type,
     // name: 'normal',
     // waiting, pending, completed, deleted
     state: 'pending',
@@ -19,6 +17,9 @@ export const createThing = (props, type) => {
       deleted: null,
       ...props.time,
     },
+
+    children: props.children || [],
+    nesting: 'nesting' in type ? !!type.nestring : true,
 
     /**
      * server id
@@ -50,38 +51,7 @@ export const createThing = (props, type) => {
       onChange: identify,
       ...type.hooks,
     },
-    editor: [
-      {
-        type: 'select',
-        name: 'type',
-        options: ({ thingTypes }) => thingTypes.map(t => ({ label: t.name, value: t.type })),
-        onChange: (value, thing, { thingTypes }) => {
-          if (!(value in thing.extendsCache)) {
-            const thingType = thingTypes.find(item => item.type === value)
-            thing.extendsCache[value] = thingType.extends
-          }
-
-          thing.extendsCache[thing.type] = thing.extends
-          thing.extends = thing.extendsCache[value]
-
-          thing = createThing(thing)
-          if (!(value in thing.extendsCache)) thing = thing.hooks.onCreate(thing)
-
-          return thing
-        },
-      },
-      {
-        type: 'text',
-        name: 'title',
-        onChange: (value, thing) => ({ ...thing, title: value }),
-      },
-      {
-        type: 'checkbox',
-        name: 'important',
-        onChange: (value, thing) => ({ ...thing, important: value }),
-      },
-      ...type.editor,
-    ],
+    fields: type.fields,
     extends: props.extends || type.extends || {},
     extendsCache: props.extendsCache || [],
   }
