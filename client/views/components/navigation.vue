@@ -23,6 +23,7 @@ export default {
   height: 120px;
   box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
   font-size: 24px;
+  line-height: 33px;
 }
 
 .navigator {

@@ -1,11 +1,13 @@
 import Router from 'koa-router'
 import { join, resolve } from 'path'
-import { readFile } from 'fs/promises'
+import fs from 'fs'
+import util from 'util'
 import npm from 'npm-programmatic'
 
 
-const router = new Router({ prefix: '/api' })
+const readFile = util.promisify(fs.readFile)
 
+const router = new Router({ prefix: '/api' })
 
 router
   .get('/plugin/:pluginName', async ctx => {

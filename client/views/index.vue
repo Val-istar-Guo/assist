@@ -17,6 +17,7 @@ import loading from './components/loading'
 export default {
   initialData: async function ({ store, route }) {
     await store.dispatch('system.init')
+    await store.dispatch('system.storage')
   },
   components: { navigation, workbench, loading },
   computed: mapState(['applicationStatus']),

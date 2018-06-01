@@ -4,6 +4,7 @@ import uuid from 'uuid/v1'
 import jsonp from '../modules/jsonp'
 import { createThing } from '../modules/thing'
 import { createThingType } from '../modules/thingType'
+import { saveThings, getThings } from '../modules/storage';
 import 'expose-loader?vuex!vuex'
 // import 'vuex'
 
@@ -49,13 +50,12 @@ export default {
     'system.init': async ({ state, commit, dispatch }) => {
       await dispatch('system.loadUser')
       await dispatch('system.loadPlugin', 'assist-plugin-system')
-      await dispatch('system.loadThings', [])
-
-      await dispatch('system.appendThing', {
-        type: 'system.normal',
-        title: '第一条测试任务',
-        description: '这条任务用于测试，预示着异步插件载入成功',
-      })
+      await dispatch('system.loadThings')
+      // await dispatch('system.appendThing', {
+      //   type: 'system.normal',
+      //   title: '第一条测试任务',
+      //   description: '这条任务用于测试，预示着异步插件载入成功',
+      // })
 
       commit('afterApplicationLoaded')
     },
@@ -79,7 +79,8 @@ export default {
 
       commit('pluginLoaded', plugin)
     },
-    'system.loadThings': async ({ state, commit }, things) => {
+    'system.loadThings': async ({ state, commit }) => {
+      let things = await getThings()
       const { thingTypes } = state
 
       things = things.map(thing => {
@@ -88,7 +89,7 @@ export default {
         return createThing(thing, thingType)
       })
 
-      things.forEach(thing => thing)
+      commit('thingsAppend', things)
     },
     'system.appendThing': async ({ state, commit, getters }, editorProps) => {
       console.log('system append thing: ', editorProps)
@@ -133,8 +134,24 @@ export default {
     'system.storage': async ({ state, commit }) => {
       console.log('system storage data')
 
-      const { things } = state
       /* 不存储 thing.hook 与 thing.fields 属性，因为这是根据插件动态生成的，非数据 */
+      const things = state.things
+        .map(thing => ({
+          type: thing.type,
+          state: thing.state,
+          time: thing.time,
+          children: thing.children,
+          nesting: thing.nesting,
+          id: thing.id,
+          uuid: thing.uuid,
+          title: thing.title,
+          description: thing.description,
+          tags: thing.tags,
+          important: thing.important,
+          extends: thing.extends,
+          extendsCache: thing.extendsCache,
+        }))
+      saveThings(things);
     },
   },
 
