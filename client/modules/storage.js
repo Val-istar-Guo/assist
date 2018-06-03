@@ -37,9 +37,8 @@ const linkTable = (tran, name) => {
       req.onsuccess = e => resolve(e.target.result)
       req.onerror = e => reject(e)
     }),
-    put: (arg) => new Promise((resolve, reject) => {
-      console.log('put', arg)
-      const req = store.put(arg)
+    put: (...arg) => new Promise((resolve, reject) => {
+      const req = store.put(...arg)
       req.onsuccess = e => resolve(e.target.result)
       req.onerror = e => reject(e)
     }),

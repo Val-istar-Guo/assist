@@ -91,7 +91,7 @@ export default {
 
       commit('thingsAppend', things)
     },
-    'system.appendThing': async ({ state, commit, getters }, editorProps) => {
+    'system.appendThing': async ({ state, commit, getters, dispatch }, editorProps) => {
       console.log('system append thing: ', editorProps)
 
       const thingType = state.thingTypes.find(t => t.type === editorProps.type)
@@ -106,14 +106,16 @@ export default {
 
       thing = thing.hooks.onCreate(thing)
       commit('thingsAppend', [thing])
+      dispatch('system.storage')
     },
-    'system.deleteThing': async ({ state, commit }, thing) => {
+    'system.deleteThing': async ({ state, commit, dispatch }, thing) => {
       console.log('system delete thing')
 
       thing.hooks.beforeDelete(thing)
       commit('thingsDelete', [thing])
+      dispatch('system.storage')
     },
-    'system.modifyThings': async ({ state, commit, getters }, props) => {
+    'system.modifyThings': async ({ state, commit, getters, dispatch }, props) => {
       console.log('system modify thing', props)
 
       const things = state.things
@@ -129,11 +131,10 @@ export default {
         })
 
       commit('thingsModified', things)
+      dispatch('system.storage')
     },
 
     'system.storage': async ({ state, commit }) => {
-      console.log('system storage data')
-
       /* 不存储 thing.hook 与 thing.fields 属性，因为这是根据插件动态生成的，非数据 */
       const things = state.things
         .map(thing => ({
@@ -151,6 +152,9 @@ export default {
           extends: thing.extends,
           extendsCache: thing.extendsCache,
         }))
+
+      console.log('system storage data: ', things)
+
       saveThings(things);
     },
   },
