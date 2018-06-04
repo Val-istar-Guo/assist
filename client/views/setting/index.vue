@@ -1,12 +1,10 @@
 <template>
   <div>
-    <document-title>Assist</document-title>
     <router-view></router-view>
   </div>
 </template>
 <script>
 export default {
-
 }
 </script>
 <style lang="postcss" scoped>

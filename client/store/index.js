@@ -36,6 +36,11 @@ export default {
       id: '',
       name: '',
     },
+
+    setting: {
+      autoSync: false,
+    },
+
     things: [],
   },
 
@@ -133,6 +138,9 @@ export default {
       commit('thingsModified', things)
       dispatch('system.storage')
     },
+    'system.modifySetting': async ({ state, commit }, setting) => {
+      commit('settingModified', setting)
+    },
 
     'system.storage': async ({ state, commit }) => {
       /* 不存储 thing.hook 与 thing.fields 属性，因为这是根据插件动态生成的，非数据 */
@@ -216,6 +224,10 @@ export default {
       // 自动聚焦第一个view
       if (state.views.length && !state.focuseViewType) state.focuseViewType = state.views[0].type
       state.applicationStatus = 'running'
+    },
+
+    settingModified: (state, setting) => {
+      state.setting = { ...state.setting, ...setting }
     },
   },
 };

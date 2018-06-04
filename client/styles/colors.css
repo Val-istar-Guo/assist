@@ -6,3 +6,12 @@
   /* 标题颜色 */
   --header-text: #000000;
 }
+
+.iconfont {
+  color: var(--body-text);
+  transition: color .1s linear;
+}
+
+.iconfont.available:hover {
+  color: #0F4471;
+}

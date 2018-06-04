@@ -1,9 +1,11 @@
 <template lang="html">
-  <div class="container">
-    <ul class="navigator">
-      <li v-for="view in views":class="[view.type === focuseViewType ? 'active' : '', 'item']">{{view.name}}</li>
-    </ul>
-  </div>
+  <top-menu go-back upload setting>
+    <div class="scroll-bar">
+      <ul class="navigator">
+        <li v-for="view in views":class="[view.type === focuseViewType ? 'active' : '', 'item']">{{view.name}}</li>
+      </ul>
+    </div>
+  </top-menu>
 </template>
 
 <script>
@@ -18,12 +20,9 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.container {
-  width: 100%;
-  height: 120px;
-  box-shadow: 1px 0 2px rgba(0, 0, 0, 0.2);
-  font-size: 24px;
-  line-height: 33px;
+.scroll-bar {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .navigator {
@@ -31,12 +30,17 @@ export default {
   padding: 0;
   text-align: center;
   line-height: 120px;
+  white-space:nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   & .item {
     position: relative;
     display: inline-block;
     list-style: none;
-    padding: 0 30px;
+    padding: 0 10px;
     cursor: pointer;
 
     &::before {
@@ -57,5 +61,4 @@ export default {
     }
   }
 }
-
 </style>

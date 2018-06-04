@@ -4,6 +4,9 @@ import fs from 'fs'
 import util from 'util'
 import npm from 'npm-programmatic'
 
+const pluginList = [
+  { id: 1, name: 'assist-plugin-system', description: '系统插件', author: 'Assist', recommend: true },
+];
 
 const readFile = util.promisify(fs.readFile)
 
@@ -26,6 +29,11 @@ router
 
     ctx.body = await readFile(join(pluginPath, main))
     ctx.set('Content-Type', 'application/javascript; charset=UTF-8');
+  })
+  .get('/plugins', async ctx => {
+    const { keyword = '', limit = 10, offset = 0 } = ctx.query
+    ctx.body = JSON.stringify(pluginList)
+    ctx.set('Content-Type', 'application/json; charset=UTF-8')
   })
 
 export default router

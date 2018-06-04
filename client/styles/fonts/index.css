@@ -3,3 +3,23 @@
 body {
   font-family: PingFangSC, sans-serif;
 }
+
+.iconfont.small {
+  font-size: 36px;
+  line-height: 55px;
+}
+
+.iconfont,
+.iconfont.normal {
+  font-size: 48px;
+  line-height: 67px;
+}
+
+.iconfont.large {
+  font-size: 64px;
+  line-height: 90px;
+}
+
+.iconfont.iconfont.available {
+  cursor: pointer;
+}
