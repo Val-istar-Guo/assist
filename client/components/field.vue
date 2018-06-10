@@ -22,7 +22,7 @@ export default {
 
 .title {
   display: inline-block;
-  font-size: 32px;
+  font-size: 36px;
   line-height: 45px;
   padding: 0;
   margin: 0;

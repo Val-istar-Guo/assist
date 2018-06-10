@@ -37,8 +37,9 @@ label {
 input {
   display: inline-block;
   border: none;
+  box-shadow: none;
+  outline: none;
   border-bottom: 1px solid var(--foreground);
   padding: 5px 10px;
-  outline: none;
 }
 </style>

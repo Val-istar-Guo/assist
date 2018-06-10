@@ -1,21 +1,35 @@
 <template lang="html">
-  <top-menu go-back upload setting>
-    <div class="scroll-bar">
-      <ul class="navigator">
-        <li v-for="view in views":class="[view.type === focuseViewType ? 'active' : '', 'item']">{{view.name}}</li>
-      </ul>
-    </div>
-  </top-menu>
+  <div class="scroll-bar">
+    <ul>
+      <li
+        v-for="view in views"
+        :class="[{ active: isActive(view) }, 'item']"
+        @click="focus(view.name)"
+      >
+        <i class="iconfont large icon-form available" />
+        <span class="name">{{view.displayName}}</span>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 
 export default {
   computed: {
-    ...mapState(['views', 'focuseViewType']),
-  }
+    ...mapGetters(['views', 'focusView']),
+  },
+  methods: {
+    isActive(view) {
+      return this.focusView && view.name === this.focusView.name
+    },
+
+    ...mapActions({
+      focus: 'system.interface.focusView',
+    })
+  },
 }
 </script>
 
@@ -23,41 +37,43 @@ export default {
 .scroll-bar {
   overflow-x: auto;
   overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0;
 }
 
-.navigator {
+ul {
+  display: table;
+  box-sizing: border-box;
+
   margin: 0;
-  padding: 0;
   text-align: center;
-  line-height: 120px;
   white-space:nowrap;
+  overflow: hidden;
+  height: 120px;
+  width: 100%;
+  text-align: center;
+  padding: 0 20px;
 
   &::-webkit-scrollbar {
     display: none;
   }
 
   & .item {
+    display: table-cell;
     position: relative;
-    display: inline-block;
     list-style: none;
-    padding: 0 10px;
+    padding: 0 20px;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
 
-    &::before {
-      content: ' ';
-      display: block;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 12px;
-      width: 100%;
-      background: #333;
-      transform: scaleX(0);
-      transition: transform .2s ease-in;
+    &.active {
+      color:
     }
 
-    &.active::before {
-      transform: scaleX(1);
+    & .name {
+      display: block;
+      font-size: 20px;
     }
   }
 }

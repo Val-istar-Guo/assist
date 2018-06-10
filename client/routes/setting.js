@@ -1,6 +1,7 @@
 import Index from '../views/setting'
 import Main from '../views/setting/main'
-import Plugins from '../views/setting/plugins'
+import PluginManager from '../views/setting/pluginManager'
+import PluginAdder from '../views/setting/pluginAdder'
 
 
 export default {
@@ -8,6 +9,7 @@ export default {
   component: Index,
   children: [
     { path: '', component: Main },
-    { path: 'plugins', component: Plugins },
+    { path: 'plugin-manager', component: PluginManager },
+    { path: 'plugin-adder', component: PluginAdder },
   ],
 }

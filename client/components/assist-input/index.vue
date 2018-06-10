@@ -6,20 +6,23 @@
       @change="$emit('change', $event)"
       :value="value"
     />
-    <text-input
+    <select-input
       v-if="type === 'select'"
       :label="label"
       @change="$emit('change', $event)"
       :value="value"
-    />
+    >
+    </select-input>
   </div>
 </template>
 <script>
 import TextInput from './text'
+import SelectInput from './select'
+import OptionInput from './option'
 
 
 export default {
-  components: { TextInput },
+  components: { TextInput, SelectInput, OptionInput },
   props: {
     type: {
       type: String,

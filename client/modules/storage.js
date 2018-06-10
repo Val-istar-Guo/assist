@@ -6,8 +6,7 @@ const linkThingDB = async () => {
 
     const request = indexedDB.open('things', 1)
     request.onupgradeneeded = e => {
-
-      e.target.result.createObjectStore('things', { keyPath: 'uuid' })
+      e.target.result.createObjectStore('things', { keyPath: 'id' })
     }
 
     request.onsuccess = e => {

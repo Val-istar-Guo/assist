@@ -9,7 +9,7 @@
       <div class="right-operation">
         <i
           v-if="upload"
-          class="setting-button iconfont icon-upload"
+          :class="['upload-button', 'iconfont', 'icon-upload', { active: dataSyncStatus === 'running' }]"
         />
         <i
           v-if="setting"
@@ -25,11 +25,18 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
+
 export default {
   props: {
     setting: Boolean,
     upload: Boolean,
     goBack: Boolean,
+  },
+
+  computed: {
+    ...mapGetters(['dataSyncStatus'])
   },
 }
 </script>
@@ -44,9 +51,8 @@ export default {
   position: relative;
   width: 100%;
   height: 120px;
-  font-size: 24px;
+  font-size: 32px;
   letter-spacing: 6px;
-  line-height: 33px;
 }
 
 .content {
@@ -77,4 +83,17 @@ export default {
   right: 25px;
 }
 
+
+.upload-button.active {
+  animation: flashing .6s linear 0s infinite alternate;
+}
+
+@keyframes flashing {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
 </style>

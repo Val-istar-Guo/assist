@@ -5,21 +5,20 @@ body {
 }
 
 .iconfont.small {
-  font-size: 36px;
-  line-height: 55px;
+  font-size: 48px;
 }
 
 .iconfont,
 .iconfont.normal {
-  font-size: 48px;
-  line-height: 67px;
+  font-size: 64px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .iconfont.large {
-  font-size: 64px;
-  line-height: 90px;
+  font-size: 72px;
 }
 
 .iconfont.iconfont.available {
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }

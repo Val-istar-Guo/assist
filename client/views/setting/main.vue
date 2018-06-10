@@ -4,7 +4,7 @@
     <field title="用户">
       <plain-text>Val.istar.Guo</plain-text>
     </field>
-    <field title="插件" @click="$router.push('/setting/plugins')">
+    <field title="插件" @click="$router.push('/setting/plugin-manager')">
       <more-options />
     </field>
     <field title="自动同步" @click="modifySetting({ autoSync: !setting.autoSync})" >
@@ -13,16 +13,16 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 
 export default {
   computed: {
-    ...mapState(['setting']),
+    ...mapGetters(['setting']),
   },
   methods: {
     ...mapActions({
-      modifySetting: 'system.modifySetting',
+      modifySetting: 'system.data.setting.modify',
     }),
   },
 }
