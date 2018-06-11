@@ -25,14 +25,15 @@
     "build:prod": "NODE_ENV=production npm run build",
     "start": "node build/engine.js",
     "prestart:prod": "NODE_ENV=production npm run build",
-    "start:prod": "dODE_ENV=production node dist/server/bundle.js",
+    "start:prod": "NODE_ENV=production node dist/server/bundle.js",
     "setup": "node run setup:stage",
     "setup:stage": "pm2 deploy ecosystem.config.js stage setup",
     "setup:prod": "pm2 deploy ecosystem.config.js prod setup",
     "deploy": "npm run deploy:stage",
     "deploy:stage": "pm2 deploy ecosystem.config.js stage",
     "deploy:prod": "pm2 deploy ecosystem.config.js prod",
-    "analyzer": "NODE_ENV=production ANALYZER=true webpack"
+    "analyzer": "NODE_ENV=production ANALYZER=true webpack",
+    "prestart:pord": "NODE_ENV=production npm run build"
   },
   "engines": {
     "node": ">=8.9.4"
@@ -61,9 +62,10 @@
     "expose-loader": "^0.7.5",
     "file-loader": "^1.1.11",
     "html-loader": "^0.5.5",
+    "husky": "^0.14.3",
     "koa-webpack": "^5.0.2",
     "memory-fs": "^0.4.1",
-    "mili": "0.0.2-alpha.2",
+    "mili": "0.0.2-alpha.5",
     "pm2": "^2.10.4",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^11.1.0",
