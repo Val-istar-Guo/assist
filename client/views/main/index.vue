@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div>
     <top-menu upload setting>{{title}}</top-menu>
     <loading v-if="applicationStatus === 'initization'" />

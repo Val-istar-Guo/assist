@@ -1,8 +1,9 @@
-<template lang="html">
+<template>
   <div class="scroll-bar">
     <ul>
       <li
         v-for="view in views"
+        :key="view.name"
         :class="[{ active: isActive(view) }, 'item']"
         @click="focus(view.name)"
       >

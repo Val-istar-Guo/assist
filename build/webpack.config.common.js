@@ -5,9 +5,14 @@
 import path from 'path';
 import env from 'detect-env';
 import webpack from 'webpack';
+import VueLoaderPlugin from 'vue-loader/lib/plugin'
 
 import config from '../build.config'
-import { vueLoader, babelLoader, urlLoader } from './loaders';
+import cssLoader from './loaders/css'
+import jsLoader from './loaders/js'
+import fontLoader from './loaders/font'
+import htmlLoader from './loaders/html'
+import vueLoader from './loaders/vue'
 
 
 // base client config
@@ -25,7 +30,6 @@ export default {
 
   module: {
     rules: [
-      { test: /\.vue/, exclude: /node_modules/, use: [vueLoader] },
       // BUG: expose-loader not work with config
       // {
       //   test: require.resolve('vuex'),
@@ -34,20 +38,11 @@ export default {
       //     options: 'vuex'
       //   }]
       // },
-      { test: /\.js$/, exclude: /node_modules/, use: [babelLoader] },
-      { test: /\.html$/, use: 'html-loader' },
-      { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/, use: [urlLoader] },
-      {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: { importLoaders: 1 },
-          },
-          'postcss-loader',
-        ],
-      },
+      vueLoader,
+      jsLoader,
+      cssLoader,
+      fontLoader,
+      htmlLoader,
     ],
   },
 
@@ -56,6 +51,7 @@ export default {
     extensions: ['.js', '.vue'],
   },
   plugins: [
+    new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
